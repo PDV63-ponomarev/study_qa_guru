@@ -3,6 +3,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
+
+'''
+место для третьего условного изменения
+занимание место в коде1
+'''
+
 # условный фрагмент 
 def page(driver):
     # перелистывает страницы
@@ -17,6 +23,8 @@ def page(driver):
     except TimeoutException:
         pages = False
         print('Последняя страница.')
+        
+
 
 # настройка драйверов
 wep_option = ['--start-maximized', '--disable-gpu']
