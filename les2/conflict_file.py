@@ -3,10 +3,27 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
+
 '''
 место для третьего условного изменения
 занимание место в коде1
 '''
+
+# условный фрагмент 
+def page(driver):
+    # перелистывает страницы
+    # ожидание и нажатие кнопки
+    global pages
+    print('Новая страница')
+    try: 
+        new_page = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, '//a[contains(., "next")]')))
+        new_page.click()
+          
+    except TimeoutException:
+        pages = False
+        print('Последняя страница.')
+        
 
 
 # настройка драйверов
