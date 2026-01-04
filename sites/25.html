@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Автоматизация работы с формами Python Selenium</title>
+    <!-- Add Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+
+    <style>
+        /* Custom CSS for styling the canvas */
+        #successCanvas {
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* Custom CSS for form alignment */
+        .form-container {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        /* Custom CSS for right-aligned input fields */
+        .right-align {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Строка для двух колонок -->
+        <div class="row">
+            <!-- Колонка для больших экранов 6, для маленьких 12 -->
+            <div class="col-lg-6 col-12">
+                <h1 class="text-center">Автоматизация работы с формами Python Selenium</h1>
+                <hr>
+
+                <!-- Canvas for displaying successful action messages -->
+                <div class="alert alert-success mt-3" id="successCanvas">
+                    <pre class="text-monospace" id="successMessage"></pre>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <!-- Форма для входа и пароля -->
+                <div class="form-container">
+                    <form id="loginForm">
+                        <div class="row">
+                            <div class="col-md-12 center-align">
+                                <div class="form-group">
+                                    <label for="username" class="form-label">Имя пользователя</label>
+                                    <input type="text" class="form-control" id="username" name="username"
+                                        placeholder="Username">
+                                    <label for="password" class="form-label">Пароль</label>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Password">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Запомнить меня</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary"
+                                onclick="submitForm('loginForm')">Отправить</button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+                <!-- Форма с текстовой областью -->
+                <div class="form-container">
+                    <form id="textareaForm">
+                        <div class="form-group">
+                            <label for="message" class="form-label">Текстовая область</label>
+                            <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="submitForm('textareaForm')">Отправить
+                                Текстовую область</button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+                <!-- Форма с ползунком -->
+                <div class="form-container">
+                    <form id="sliderForm">
+                        <div class="form-group">
+                            <label for="discountSlider" class="form-label">Скидка</label>
+                            <input type="range" class="form-range" id="discountSlider" name="discount" min="0"
+                                max="100">
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="submitForm('sliderForm')">Отправить
+                                Скидку</button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+                <!-- Форма с радио-кнопками -->
+                <div class="form-container">
+                    <form id="radioForm">
+                        <div class="form-group">
+                            <p>Вы хотите мороженое?</p>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="iceCreamYes" name="iceCream"
+                                    value="Да">
+                                <label class="form-check-label" for="iceCreamYes">Да</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="iceCreamNo" name="iceCream"
+                                    value="Нет">
+                                <label class="form-check-label" for="iceCreamNo">Нет</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="submitForm('radioForm')">Отправить
+                                Выбор
+                                Мороженого</button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+                <!-- Форма с флажками -->
+                <div class="form-container">
+                    <form id="checkboxForm">
+                        <div class="form-group">
+                            <p>Любимая еда:</p>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="foodOption1" name="pizza"
+                                    value="Пицца">
+                                <label class="form-check-label" for="foodOption1">Пицца</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="foodOption2" name="burger"
+                                    value="Бургер">
+                                <label class="form-check-label" for="foodOption2">Бургер</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="foodOption3" name="sushi"
+                                    value="Суши">
+                                <label class="form-check-label" for="foodOption3">Суши</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="foodOption4" name="takos"
+                                    value="Такос">
+                                <label class="form-check-label" for="foodOption4">Такос</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="foodOption5" name="salat"
+                                    value="Салат">
+                                <label class="form-check-label" for="foodOption5">Салат</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="submitForm('checkboxForm')">Отправить
+                                Любимую
+                                Еду</button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+                <!-- Форма со списком выбора -->
+                <div class="form-container">
+                    <form id="dropdownForm">
+                        <div class="form-group">
+                            <label for="automationTask" class="form-label">Сейчас я могу автоматизировать:</label>
+                            <select class="form-select" id="automationTask" name="automationTask">
+                                <option selected>Выберите опцию</option>
+                                <option value="Помыть посуду">Помыть посуду</option>
+                                <option value="Вынести мусор">Вынести мусор</option>
+                                <option value="Купить хлеб">Купить хлеб</option>
+                                <option value="Захватить галактику">Захватить галактику</option>
+                                <!-- Добавьте больше опций здесь -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="submitForm('dropdownForm')">Отправить
+                                Задачу</button>
+                        </div>
+                    </form>
+                </div>
+                <form id="dateForm">
+                    <div class="mb-3">
+                        <label for="dateInput" class="form-label">Выберите дату</label>
+                        <input type="date" class="form-control" id="dateInput" name="date">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="submitForm('dateForm')">Отправить Дату</button>
+                </form>
+                <!-- Форма с числовым вводом -->
+
+                <form id="numberForm">
+                <div class="mb-3">
+                    <label for="numberInput" class="form-label">Выберите число</label>
+                    <input type="number" class="form-control" id="numberInput" min="0" name="number">
+                </div>
+                
+                <button type="button" class="btn btn-primary" onclick="submitForm('numberForm')">Отправить Число</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap 5 JS and Popper.js CDN for Bootstrap components -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function submitForm(formId) {
+            // Добыча формы и ее данных
+            const form = document.getElementById(formId);
+            // Добыча данных формы
+            const formData = new FormData(form);
+
+            // Преобразование FormData в объект для удобной работы
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+
+            // Отображение сообщения об успешной отправке в Canvas
+            const successCanvas = document.getElementById("successCanvas");
+            const successMessage = document.getElementById("successMessage");
+            successMessage.textContent = `Успешная отправка данных!\nФорма: ${formId}\nСодержание: ${JSON.stringify(formObject)}`;
+            successCanvas.style.display = "block";
+        }
+    </script>
+</body>
+
+</html>
