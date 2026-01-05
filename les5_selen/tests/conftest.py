@@ -10,6 +10,9 @@ def browser_managment():
     # установка времени поиска, необяз поле
     browser.config.timeout = 2.0
 
+    # ввод текст через js, не симуляцией нажатия кнопок
+    browser.config.type_by_js = True
+
     # скрытый режим, необяз поле
     driver_options = webdriver.ChromeOptions()
     driver_options.add_argument('--headless')
