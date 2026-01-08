@@ -17,7 +17,6 @@ def test_add_todos_and_complete_one():
     else:
         print('some text2')
 
-
     # проверка без ожидания что заголовок имеет название
     # код не падает в случае несоответсвия
     if browser.matching(have.title('TodoMvc')):
@@ -26,17 +25,16 @@ def test_add_todos_and_complete_one():
         print('some text2')
 
 
-
 # нажатие нескольких кнопок
 actions = ActionChains(browser.driver)
 # после зажатия всегда надо отжимать зажатые
 actions.key_down(Keys.COMMAND).send_keys('a').key_up(Keys.COMMAND).perform()
 # или
-browser.element('#new-todo').type(Keys.COMMAND+'a'+Keys.NULL)
-browser.element('#new-todo').type(Keys.COMMAND+'a'+Keys.NULL+'some text')
+browser.element('#new-todo').type(Keys.COMMAND + 'a' + Keys.NULL)
+browser.element('#new-todo').type(Keys.COMMAND + 'a' + Keys.NULL + 'some text')
 # или
 browser.element('#new-todo').send_keys(
-    Keys.COMMAND+'a',
+    Keys.CONTROL + 'a',
     Keys.NULL,
     'some text',
 )
