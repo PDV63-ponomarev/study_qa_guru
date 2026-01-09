@@ -19,7 +19,7 @@ def browser_managment():
     # Создаем undetected драйвер
     driver = uc.Chrome(
         options=chrome_options,
-        headless=False,  # или True для headless
+        headless=True,  # False или True для headless
         use_subprocess=True,  # для стабильности
     )
 
@@ -28,7 +28,7 @@ def browser_managment():
     browser.config.base_url = 'https://demoqa.com/automation-practice-form'
 
     # Устанавливаем размер окна
-    driver.maximize_window()
+    # driver.maximize_window()
 
     yield
 
