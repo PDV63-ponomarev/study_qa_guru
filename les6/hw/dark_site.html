@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Переключатель темы</title>
+    <style>
+      :root {
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --accent-color: #4a6fa5;
+        --card-bg: #f0f0f0;
+        --border-color: #dddddd;
+      }
+
+      [data-theme="dark"] {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --accent-color: #6d9ddb;
+        --card-bg: #1e1e1e;
+        --border-color: #333333;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: var(--accent-color);
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+        opacity: 0.8;
+      }
+
+      .theme-selector {
+        background-color: var(--card-bg);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--border-color);
+      }
+
+      .theme-selector h2 {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .theme-selector h2 svg {
+        width: 24px;
+        height: 24px;
+        fill: var(--accent-color);
+      }
+
+      .mode-selector {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .mode-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .mode-option:hover {
+        background-color: var(--accent-color);
+        color: white;
+      }
+
+      .mode-option.selected {
+        background-color: var(--accent-color);
+        color: white;
+        border-color: var(--accent-color);
+      }
+
+      .mode-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+      }
+
+      .mode-label svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .theme-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .theme-btn {
+        flex: 1;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.2s;
+      }
+
+      .theme-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .theme-btn:active {
+        transform: translateY(0);
+      }
+
+      .theme-btn.active {
+        background-color: var(--accent-color);
+        color: white;
+        border-color: var(--accent-color);
+      }
+
+      .theme-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .theme-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
+      }
+
+      .info {
+        background-color: var(--card-bg);
+        border-radius: 12px;
+        padding: 25px;
+        margin-top: 20px;
+        border: 1px solid var(--border-color);
+      }
+
+      .info h3 {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .info h3 svg {
+        width: 22px;
+        height: 22px;
+        fill: var(--accent-color);
+      }
+
+      .info p {
+        margin-bottom: 15px;
+      }
+
+      .current-time {
+        font-weight: bold;
+        color: var(--accent-color);
+      }
+
+      .current-theme {
+        font-weight: bold;
+        text-transform: uppercase;
+        color: var(--accent-color);
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header id="pageHeader">
+        <h1 id="mainTitle">Переключатель темы</h1>
+        <p class="subtitle" id="pageSubtitle">Автоматический и ручной режимы</p>
+      </header>
+
+      <main id="mainContent">
+        <section class="theme-selector" id="themeSelector">
+          <h2 id="themeSelectorTitle">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path
+                d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"
+              />
+            </svg>
+            Настройки темы
+          </h2>
+
+          <div class="mode-selector" id="modeSelector">
+            <div
+              class="mode-option selected"
+              id="autoModeOption"
+              data-mode="auto"
+            >
+              <div class="mode-label" id="autoModeLabel">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M12 6c0 .34.03.67.08 1H4v2h1.86c-.56 1.1-1.38 2.38-1.86 3-.92 1.19-1.86 2-2.14 3 0 2.21 4.43 4 9.14 4s9.14-1.79 9.14-4c-.28-1-1.22-1.81-2.14-3-.48-.62-1.3-1.9-1.86-3H20v-2h-8.08c.05-.33.08-.66.08-1s-.03-.67-.08-1H20V4H4v2h7.08c-.05.33-.08.66-.08 1zm-3.5 5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm7 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"
+                  />
+                </svg>
+                Автоматический режим
+              </div>
+              <span id="autoModeDescription">По системному времени</span>
+            </div>
+
+            <div class="mode-option" id="manualModeOption" data-mode="manual">
+              <div class="mode-label" id="manualModeLabel">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    d="M12 15c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm0-10c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"
+                  />
+                </svg>
+                Ручной режим
+              </div>
+              <span id="manualModeDescription">Выбор вручную</span>
+            </div>
+          </div>
+
+          <div class="theme-buttons" id="themeButtons">
+            <button class="theme-btn active" id="lightThemeBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"
+                />
+              </svg>
+              Светлая тема
+            </button>
+
+            <button class="theme-btn" id="darkThemeBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"
+                />
+              </svg>
+              Темная тема
+            </button>
+          </div>
+        </section>
+
+        <section class="info" id="infoSection">
+          <h3 id="infoSectionTitle">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+              />
+            </svg>
+            Информация
+          </h3>
+          <p id="currentModeInfo">
+            Текущий режим: <span id="currentMode">Автоматический</span>
+          </p>
+          <p id="currentThemeInfo">
+            Текущая тема:
+            <span class="current-theme" id="currentTheme">Авто</span>
+          </p>
+          <p id="currentTimeInfo">
+            Системное время:
+            <span class="current-time" id="currentTime">00:00:00</span>
+          </p>
+          <p id="modeDescription">
+            В автоматическом режиме тема меняется в зависимости от времени
+            суток. Светлая тема активна с 6:00 до 18:00, темная — с 18:00 до
+            6:00.
+          </p>
+        </section>
+      </main>
+
+      <footer id="pageFooter">
+        <p id="footerText">Сайт с переключением темы © 2023</p>
+      </footer>
+    </div>
+
+    <script>
+      // Элементы DOM
+      const body = document.body;
+      const lightThemeBtn = document.getElementById("lightThemeBtn");
+      const darkThemeBtn = document.getElementById("darkThemeBtn");
+      const autoModeOption = document.getElementById("autoModeOption");
+      const manualModeOption = document.getElementById("manualModeOption");
+      const currentMode = document.getElementById("currentMode");
+      const currentTheme = document.getElementById("currentTheme");
+      const currentTime = document.getElementById("currentTime");
+      const modeDescription = document.getElementById("modeDescription");
+
+      // Состояние приложения
+      let state = {
+        mode: "auto", // 'auto' или 'manual'
+        theme: "auto", // 'light', 'dark' или 'auto'
+      };
+
+      // Восстановить состояние из localStorage
+      function loadState() {
+        const savedState = localStorage.getItem("themeState");
+        if (savedState) {
+          state = JSON.parse(savedState);
+        }
+      }
+
+      // Сохранить состояние в localStorage
+      function saveState() {
+        localStorage.setItem("themeState", JSON.stringify(state));
+      }
+
+      // Обновить отображение времени
+      function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString("ru-RU");
+        currentTime.textContent = timeString;
+
+        // В автоматическом режиме проверяем время для смены темы
+        if (state.mode === "auto") {
+          const hour = now.getHours();
+          const isDayTime = hour >= 6 && hour < 18;
+
+          if (isDayTime) {
+            applyTheme("light");
+          } else {
+            applyTheme("dark");
+          }
+        }
+      }
+
+      // Применить тему
+      function applyTheme(theme) {
+        // Обновляем состояние
+        state.theme = theme;
+
+        // Применяем тему к body
+        if (theme === "light") {
+          body.setAttribute("data-theme", "light");
+          currentTheme.textContent = "Светлая";
+        } else if (theme === "dark") {
+          body.setAttribute("data-theme", "dark");
+          currentTheme.textContent = "Темная";
+        } else {
+          // Авто режим - определяем по времени
+          const hour = new Date().getHours();
+          const isDayTime = hour >= 6 && hour < 18;
+
+          if (isDayTime) {
+            body.setAttribute("data-theme", "light");
+            currentTheme.textContent = "Светлая (авто)";
+          } else {
+            body.setAttribute("data-theme", "dark");
+            currentTheme.textContent = "Темная (авто)";
+          }
+        }
+
+        // Обновляем кнопки
+        updateThemeButtons();
+
+        // Сохраняем состояние
+        saveState();
+      }
+
+      // Обновить кнопки тем
+      function updateThemeButtons() {
+        // В ручном режиме активируем кнопки
+        if (state.mode === "manual") {
+          lightThemeBtn.disabled = false;
+          darkThemeBtn.disabled = false;
+
+          if (state.theme === "light") {
+            lightThemeBtn.classList.add("active");
+            darkThemeBtn.classList.remove("active");
+          } else if (state.theme === "dark") {
+            darkThemeBtn.classList.add("active");
+            lightThemeBtn.classList.remove("active");
+          }
+        }
+        // В авто режиме деактивируем кнопки
+        else {
+          lightThemeBtn.disabled = true;
+          darkThemeBtn.disabled = true;
+          lightThemeBtn.classList.remove("active");
+          darkThemeBtn.classList.remove("active");
+        }
+      }
+
+      // Обновить режим
+      function updateMode(mode) {
+        state.mode = mode;
+
+        // Обновляем визуальный выбор режима
+        autoModeOption.classList.toggle("selected", mode === "auto");
+        manualModeOption.classList.toggle("selected", mode === "manual");
+
+        // Обновляем отображение режима
+        currentMode.textContent = mode === "auto" ? "Автоматический" : "Ручной";
+
+        // Обновляем описание
+        if (mode === "auto") {
+          modeDescription.textContent =
+            "В автоматическом режиме тема меняется в зависимости от времени суток. Светлая тема активна с 6:00 до 18:00, темная — с 18:00 до 6:00.";
+          applyTheme("auto");
+        } else {
+          modeDescription.textContent =
+            "В ручном режиме вы можете самостоятельно выбрать светлую или темную тему.";
+          // Применяем сохраненную тему или светлую по умолчанию
+          if (state.theme === "auto") {
+            applyTheme("light");
+          } else {
+            applyTheme(state.theme);
+          }
+        }
+
+        // Обновляем кнопки
+        updateThemeButtons();
+
+        // Сохраняем состояние
+        saveState();
+      }
+
+      // Инициализация
+      function init() {
+        // Загружаем состояние
+        loadState();
+
+        // Устанавливаем начальный режим
+        updateMode(state.mode);
+
+        // Обновляем время каждую секунду
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Обработчики событий для выбора режима
+        autoModeOption.addEventListener("click", () => {
+          updateMode("auto");
+        });
+
+        manualModeOption.addEventListener("click", () => {
+          updateMode("manual");
+        });
+
+        // Обработчики для кнопок тем
+        lightThemeBtn.addEventListener("click", () => {
+          if (state.mode === "manual") {
+            applyTheme("light");
+          }
+        });
+
+        darkThemeBtn.addEventListener("click", () => {
+          if (state.mode === "manual") {
+            applyTheme("dark");
+          }
+        });
+      }
+
+      // Запуск приложения
+      document.addEventListener("DOMContentLoaded", init);
+    </script>
+  </body>
+</html>
