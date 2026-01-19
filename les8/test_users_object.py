@@ -13,7 +13,7 @@ def user_provider() -> UserProvider:
 
 
 @pytest.fixture
-def users(user_provider: UserProvider) -> list[User]:
+def users(user_provider) -> list[User]:
     return user_provider.get_users()
 
 
@@ -32,6 +32,6 @@ def workers(users) -> list[Worker]:
 def test_workers_are_adul2(workers):
     # тестируем что все работники старше 18
     for worker in workers:
-        assert User.age >= USER_ADULT_AGE, f'User {worker.name} little {USER_ADULT_AGE}'
-        # assert worker.is_adult(), f'User {worker.name} young {USER_ADULT_AGE}'
+        # assert User.age >= USER_ADULT_AGE, f'User {worker.name} little {USER_ADULT_AGE}'
+        assert worker.is_adult(), f'User {worker.name} young {USER_ADULT_AGE}'
         # assert not worker.is_adult(), f'User {worker.name} older {USER_ADULT_AGE}'

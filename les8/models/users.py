@@ -40,9 +40,9 @@ class Worker(User):
     status = Status.worker
 
     def __init__(self, name, age ,items):
-        name: str
-        age: int
-        items: list[str]
+        self.name = name
+        self.age = age
+        self.items = items
 
     def do_work(self):
         pass
