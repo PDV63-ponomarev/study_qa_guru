@@ -1,21 +1,18 @@
-from pathlib import Path
 from selene import have
 from selene import command
 from selene.support.shared import browser
-import les9
+from les9.les9_package import resource
+from les9.les9_package.pages.registration_page import RegistrationPage
+
 
 def test_form_ru():
 
-    browser.open('/automation-practice-form/')
-
-    browser.all('[id^=google_ads][id$=container__]').with_(timeout=10).wait_until(
-            have.size_greater_than_or_equal(3)
-    )
-    browser.all('[id^=google_ads][id$=container_]').perform(command.js.remove)
-
+    registration_page = RegistrationPage()
+    registration_page.open()
 
     # WHEN
-    browser.element('#firstName').type('Olga')
+    registration_page.fill_first_name('Olga')
+
     browser.element('#lastName').type('YA')
     browser.element('#userEmail').type('name@example.com')
 
@@ -23,27 +20,16 @@ def test_form_ru():
 
     browser.element('#userNumber').type('1234567891')
 
-    browser.element('[for=hobbies-checkbox-2]').click()
-
-    browser.element('#currentAddress').type('Moscowskaya Street 18')
-
-    browser.element('#dateOfBirthInput').click()
-    browser.element('.react-datepicker__month-select').type('May')
-
-    browser.element('.react-datepicker__year-select').type('1999')
-
-    browser.element(
-        f'.react-datepicker__day--0{11}:not(.react-datepicker__day--outside-month)'
-    ).click()
+    registration_page.fill_day_of_birth('1999', 'May', '11')
 
     browser.element('#subjectsInput').type('Computer Science').press_enter()
 
+    browser.all('.custom-checkbox').element_by(have.exact_text('Reading')).click()
 
-    # browser.element('#upload Picture').set_value(
-    #     str(Path(les9.__file__).parent.joinpath('resources/foto.jpg').absolute())
-    # )
+    browser.element('#uploadPicture').set_value(resource.path('foto.jpg'))
 
     browser.element('#currentAddress').type('Moscowskaya Street 18')
+
     browser.element('#state').perform(command.js.scroll_into_view)
     browser.element('#state').click()
     browser.all('[id^=react-select][id*=option]').element_by(
@@ -59,15 +45,27 @@ def test_form_ru():
 
 
     # THEN
-    browser.element('.table').all('td').even.should(
-    have.exact_texts(
-    'Olga YA',
+
+    # registration_page.registred_user_data.should(have.exact_texts(
+    #     'Olga YA',
+    #     'name@example.com',
+    #     'Female',
+    #     '1234567891',
+    #     '11 May,1999',
+    #     'Computer Science',
+    #     'Reading',
+    #     'foto.jpg',
+    #     'Moscowskaya Street 18',
+    #     'NCR Delhi',))
+
+    registration_page.should_registred_user_info(
+        'Olga YA',
         'name@example.com',
         'Female',
         '1234567891',
-        '11 May, 1999',
+        '11 May,1999',
         'Computer Science',
         'Reading',
         'foto.jpg',
         'Moscowskaya Street 18',
-        'NCR Delhi',))
+        'NCR Delhi',)
