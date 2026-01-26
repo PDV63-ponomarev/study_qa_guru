@@ -1,0 +1,21 @@
+в командной строке: scoop install allure
+
+pip install allure-pytest
+
+
+
+запуск отчета: allure serve путь/allure-results
+
+
+
+VSC:
+Launch Visual Studio Code.
+
+Open the Extensions view.
+
+In the Search Extensions in Marketplace field, enter qameta.allure-vscode.
+
+Click on the Allure Support extension, then click Install.
+
+Wait for the installation to complete.
+
