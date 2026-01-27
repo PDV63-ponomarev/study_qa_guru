@@ -7,6 +7,10 @@ pip install allure-pytest
 запуск отчета: allure serve путь/allure-results
 
 
+pycharm:
+в modify run configuration
+additional arguments: --alluredir=allure-results
+
 
 VSC:
 Launch Visual Studio Code.
@@ -18,4 +22,7 @@ In the Search Extensions in Marketplace field, enter qameta.allure-vscode.
 Click on the Allure Support extension, then click Install.
 
 Wait for the installation to complete.
+
+
+настройка скринов:
 
