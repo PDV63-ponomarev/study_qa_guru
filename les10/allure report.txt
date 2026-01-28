@@ -24,5 +24,17 @@ Click on the Allure Support extension, then click Install.
 Wait for the installation to complete.
 
 
-настройка скринов:
+В корне проекта можно создать файл pytest.ini следующего содержания:
+
+[pytest]
+
+addopts =
+
+    --clean-alluredir
+
+    --alluredir=allure-results
+
+в таком случае, параметры запуска будут браться из этого файла,
+ и указывать отдельно в команде запуска эти параметры будет не нужно
+
 
