@@ -8,7 +8,6 @@
 
 import pytest
 from selene import browser, have
-from time import sleep
 
 @pytest.fixture(autouse=True)
 def browser_managment():
@@ -34,4 +33,5 @@ def test_github_desktop(browser_desktop):
     browser.should(have.url('https://github.com/login'))
 
 def test_github_mobile(browser_mobile):
-    pass
+    browser.element("//a[contains(@class,'HeaderMenu-link') and contains(., 'Sign in')]").click()
+    browser.should(have.url('https://github.com/login'))
