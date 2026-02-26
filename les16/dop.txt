@@ -1,0 +1,30 @@
+для безопасной установки библиотек, во избежание подмены на вирус
+в requirements надо добавлять контрольную сумму
+FooProject == 1.2 \
+  --hash=sha256:2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824 \
+  --hash=sha256:486ea46224d1bb4fb680f34f7c9ad96a8f24ec88be73ea8e5a6c65260e9cb8a7
+
+но для проверки схожестки контр сумм нужно писать ключ при установке
+--require-hashes
+
+
+
+для решения сложности с безопасностью можно исп pipenv
+python -m pip install pipenv
+
+pipenv shell - запускает вирт окружение, если его нет он его создает
+
+pipenv install selene==2.0.0rc9
+
+
+Poetry проект для стандартизации питона
+сохранение конфигурация проекта в pyproject.toml
+установка в ком строке:
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
+
+созд poetry
+poetry init
+
+уст библиотек
+poetry add selene==2.0.0rc9
+
