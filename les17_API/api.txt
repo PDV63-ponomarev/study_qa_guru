@@ -1,0 +1,12 @@
+
+API - протокол взаимодействия фронтэнда с бекендом
+REST API - набор договоренностей по кодам ответом https
+пользователь-интефейс-интернет-API-сервер-БД
+
+нужна прогр postman
+https://www.postman.com/downloads/
+
+сайт где тестируется api
+reqres.in
+https://app.reqres.in/playground
+
