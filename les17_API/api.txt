@@ -10,3 +10,7 @@ https://www.postman.com/downloads/
 reqres.in
 https://app.reqres.in/playground
 
+схема ответа
+составляется на сайте и сравнивается уже через код
+https://www.liquid-technologies.com/online-json-to-schema-converter
+
