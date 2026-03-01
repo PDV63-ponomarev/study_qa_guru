@@ -32,7 +32,6 @@ def test_with_shemas():
   validate(body, schema=post_users)
 
 
-
 def test_job_name_from_request_return_in_response():
   job = 'master'
   name = 'Bob'
