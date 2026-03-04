@@ -3,7 +3,6 @@ from allure_commons._allure import step
 import requests
 import allure
 from allure_commons.types import AttachmentType
-import json
 
 LOGIN = 'PDV63@mail.ru'
 PASSWORD = 'Passw0rd'
