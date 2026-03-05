@@ -1,0 +1,29 @@
+
+userName: graiwers_wH71Ea
+accessKey: MUAc3LgpwMaVd6XQAhYj
+
+framework: python
+
+buildName: browserstack-build-1
+
+buildIdentifier: '#${BUILD_NUMBER}'
+
+source: 'python:appium-sample-sdk:v1.0'
+
+app: bs://sample.app
+
+
+platforms:
+  - platformName: android
+    deviceName: Samsung Galaxy S23 Ultra
+    platformVersion: '13.0'
+
+parallelsPerPlatform: 1
+
+browserstackLocal: true
+
+projectName: BrowserStack Sample
+
+debug: false # <boolean> # Set to true if you need screenshots for every selenium command ran
+networkLogs: false # <boolean> Set to true to enable HAR logs capturing
+consoleLogs: errors # <string> Remote browser's console debug levels to be printed (Default: errors)
