@@ -6,3 +6,4 @@ pip install browserstack-sdk
 
 запуск через командную строку
 browserstack-sdk python script_wikipedia.py
+browserstack-sdk python test_wikipedia.py

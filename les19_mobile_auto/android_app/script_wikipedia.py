@@ -8,9 +8,9 @@ import time
 
 options = UiAutomator2Options().load_capabilities({
     # Specify device and os_version for testing
-    "platformName" : "android",
-    "platformVersion" : "9.0",
-    "deviceName" : "Google Pixel 3"
+    "platformName": "android",
+    "platformVersion": "9.0",
+    "deviceName": "Google Pixel 3"
 })
 
 driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", options=options)
